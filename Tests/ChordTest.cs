@@ -66,10 +66,31 @@ namespace Tests
         [TestCase("c7 ", "C E G A#")]
         [TestCase(" c9 ", "C D E G A#")]
         [TestCase(" c79 ", "C D E G A#")]
+        [TestCase(" c11 ", "C E F G A#")]
+        [TestCase(" c711 ", "C E F G A#")]
+        [TestCase(" c7911 ", "C D E F G A#")]
+        [TestCase(" c911 ", "C D E F G A#")]
+        [TestCase(" c13 ", "C E G A A#")]
+        [TestCase(" c713 ", "C E G A A#")]
+        [TestCase(" c7913 ", "C D E G A A#")]
+        [TestCase(" c913 ", "C D E G A A#")]
+        [TestCase(" c71113 ", "C E F G A A#")]
+        [TestCase(" c791113 ", "C D E F G A A#")]
+        [TestCase(" c91113 ", "C D E F G A A#")]
         public void ExtendedChords(string name, string notes)
         {
             Chord chord = Chord.ParseChord(name);
             Assert.AreEqual(notes, chord.ToString());
+        }
+
+        [Test]
+        [TestCase("c10 ")]
+        [TestCase("c7 15 ")]
+        [TestCase("c2 ")]
+        public void ExtendedChordsFail(string name)
+        {
+            Chord chord = Chord.ParseChord(name);
+            Assert.IsNull(chord);
         }
     }
 }

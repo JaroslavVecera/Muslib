@@ -86,9 +86,11 @@ namespace Music.Chords
             {
                 acc = tok.Value;
                 SkipWhitespaces();
-                if (IsEnd || (tok = GetNextToken()).TokenType != TokenType.Num || !Enum.GetValues<Extention>().Cast<int>().ToList().Contains(tok.Value))
+                if (IsEnd || (tok = GetNextToken()).TokenType != TokenType.Num)
                     return null;
             }
+            if (!Enum.GetValues<Extention>().Cast<int>().ToList().Contains(tok.Value))
+                return null;
             return new ExtentionMember((Extention)tok.Value, (Accidental)acc);
         }
 
@@ -163,11 +165,9 @@ namespace Music.Chords
             int i = c - '0';
             if (!IsEnd && char.IsNumber(c = _expression[_index]) && i == 1)
             {
-                _index++;
-                if (i == 0)
-                    return null;
                 i *= 10;
                 i += _expression[_index] - '0';
+                _index++;
             }
             return new Token() { TokenType = TokenType.Num, Value = i };
         }
