@@ -9,15 +9,15 @@ namespace Music.Chords
     public class FormulaBuilder
     {
         ModifiableFormula Formula { get; set; }
-        List<Modifier> Modifiers { get; } = new List<Modifier>();
-        List<Extention> Extentions { get; set; }
+        List<Modifier> Modifiers { get; set; } = new List<Modifier>();
+        List<Extention> Extentions { get; set; } = new List<Extention>();
         bool Fifth { get; set; } = false;
 
         QualityMemberType State { get; set; }
         bool CanSus { get { return !Modifiers.Any(mod => mod != Modifier.Major); } }
         List<Sus> Suss { get; set; } = new List<Sus>();
         bool BuildedAlts { get; set; }
-        Dictionary<int, List<NonzeroAccidental>> Alts { get; } = new Dictionary<int, List<NonzeroAccidental>>();
+        Dictionary<int, List<NonzeroAccidental>> Alts { get; set; } = new Dictionary<int, List<NonzeroAccidental>>();
 
         public void BuildSus(Sus sus)
         {
@@ -38,7 +38,7 @@ namespace Music.Chords
 
         public FormulaBuilder()
         {
-            Formula = new ModifiableFormula();
+            Clear();
         }
 
         public Formula GetResult()
@@ -46,15 +46,31 @@ namespace Music.Chords
             return Formula;
         }
 
+        public void Clear()
+        {
+            Formula = new ModifiableFormula();
+            Modifiers = new List<Modifier>();
+            Extentions = new List<Extention>();
+            Fifth = false;
+            State = QualityMemberType.Modifier;
+            Suss = new List<Sus>();
+            BuildedAlts = false;
+            Alts = new Dictionary<int, List<NonzeroAccidental>>();
+            Error = false;
+            BuildedModifiers = false;
+        }
+
         public void Complete()
         {
             BuildModifiers();
             BuildAlts();
+            Clear();
         }
 
         public void IncreaseState(QualityMemberType state)
         {
             bool stateIsLesser = state < State;
+            State = state;
             if (stateIsLesser)
                 Error = true;
             else
@@ -86,7 +102,7 @@ namespace Music.Chords
 
         void ExtendPositive(Extention ext, Accidental accidental)
         {
-            if (Fifth || ext <= Extentions.Last())
+            if (Fifth || (Extentions.Count > 0 && ext <= Extentions.Last()))
             {
                 Error = true;
                 return;
@@ -108,7 +124,7 @@ namespace Music.Chords
         {
             if (State > QualityMemberType.Modifier)
                 BuildModifiers();
-            else if (State > QualityMemberType.Alt)
+            if (State > QualityMemberType.Alt)
                 BuildAlts();
         }
 

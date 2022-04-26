@@ -85,10 +85,10 @@ namespace Music.Chords
             if (tok.TokenType == TokenType.Acc)
             {
                 acc = tok.Value;
+                SkipWhitespaces();
+                if (IsEnd || (tok = GetNextToken()).TokenType != TokenType.Num || !Enum.GetValues<Extention>().Cast<int>().ToList().Contains(tok.Value))
+                    return null;
             }
-            SkipWhitespaces();
-            if (IsEnd || (tok = GetNextToken()).TokenType != TokenType.Num || !Enum.GetValues<Extention>().Cast<int>().ToList().Contains(tok.Value))
-                return null;
             return new ExtentionMember((Extention)tok.Value, (Accidental)acc);
         }
 
@@ -161,7 +161,7 @@ namespace Music.Chords
         Token GetNumber(char c)
         { 
             int i = c - '0';
-            while (!IsEnd && char.IsNumber(c = _expression[_index]))
+            if (!IsEnd && char.IsNumber(c = _expression[_index]) && i == 1)
             {
                 _index++;
                 if (i == 0)

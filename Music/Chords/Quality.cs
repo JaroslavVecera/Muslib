@@ -20,7 +20,10 @@ namespace Music.Chords
 
         public static Quality CreateQuality(string expression, IQualityMemberParser parser)
         {
-            return CreateQuality(parser.Parse(expression));
+            List<QualityMember> members = parser.Parse(expression);
+            if (members == null)
+                return null;
+            return CreateQuality(members);
         }
 
         public static Quality CreateQuality(List<QualityMember> members)

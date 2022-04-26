@@ -12,6 +12,13 @@ namespace Music.Chords
         Dictionary<List<Modifier>, List<int>> _sixth = new Dictionary<List<Modifier>, List<int>>();
         Dictionary<List<Modifier>, List<int>> _simple = new Dictionary<List<Modifier>, List<int>>();
 
+        public ModFinder()
+        {
+            AddSimple();
+            AddSixth();
+            AddSeventh();
+        }
+
         public List<int> FindSimple(List<Modifier> mods)
         {
             return Find(mods, _simple);

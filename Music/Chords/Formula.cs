@@ -33,7 +33,7 @@ namespace Music.Chords
 
         public static int ToSemitones(int nth)
         {
-            return NthToSemitones[((nth - 1) % 8) + 1];
+            return NthToSemitones[((nth - 1) % 7) + 1];
         }
 
         public bool Equals(Formula other)
