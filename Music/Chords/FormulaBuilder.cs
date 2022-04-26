@@ -24,7 +24,8 @@ namespace Music.Chords
             if (CanSus)
             {
                 int susDiff = sus == Sus.Sus2 ? -2 : 1;
-                Formula.RemoveThird();
+                if (Suss.Count == 0)
+                    Formula.RemoveThird();
                 if (Suss.Contains(sus) || !Formula.Add(Chords.Formula.ToSemitones(3) + susDiff))
                     Error = true;
                 Suss.Add(sus);
@@ -64,7 +65,6 @@ namespace Music.Chords
         {
             BuildModifiers();
             BuildAlts();
-            Clear();
         }
 
         public void IncreaseState(QualityMemberType state)
@@ -79,7 +79,7 @@ namespace Music.Chords
 
         public void AddModifier(Modifier modifier)
         {
-            if (Modifiers.Count == 2)
+            if (Modifiers.Count == 2 || Modifiers.Contains(modifier))
                 Error = true;
             else
                 Modifiers.Add(modifier);
@@ -117,12 +117,13 @@ namespace Music.Chords
                 else
                     Formula.Add(Chords.Formula.ToSemitones(7));
             }
+            Extentions.Add(ext);
             Formula.Add((int)(Chords.Formula.ToSemitones((int)ext) + accidental));
         }
 
         public void DoStateSpecificBehaviour()
         {
-            if (State > QualityMemberType.Modifier)
+            if (State > QualityMemberType.Extention)
                 BuildModifiers();
             if (State > QualityMemberType.Alt)
                 BuildAlts();

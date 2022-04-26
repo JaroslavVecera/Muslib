@@ -48,7 +48,7 @@ namespace Music.Chords
             _seventh.Add(new List<Modifier>() { Modifier.Major }, new List<int>() { 0, 0, 0, 1 });
             _seventh.Add(new List<Modifier>() { Modifier.Minor }, new List<int>() { 0, -1 });
             _seventh.Add(new List<Modifier>() { Modifier.Minor, Modifier.Major }, new List<int>() { 0, -1, 0, 1 });
-            _seventh.Add(new List<Modifier>() { Modifier.Augmented }, new List<int>() { 0, 0, -1 });
+            _seventh.Add(new List<Modifier>() { Modifier.Augmented }, new List<int>() { 0, 0, 1 });
             _seventh.Add(new List<Modifier>() { Modifier.Diminished }, new List<int>() { 0, -1, -1, -1 });
             _seventh.Add(new List<Modifier>() { Modifier.Diminished, Modifier.Major }, new List<int>() { 0, -1, -1, 1 });
             _seventh.Add(new List<Modifier>() { Modifier.Augmented, Modifier.Major }, new List<int>() { 0, 0, 1, 1 });

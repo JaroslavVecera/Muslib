@@ -42,6 +42,9 @@ namespace Music.Chords
             if (error)
                 return null;
             Quality res = new Quality();
+            builder.Complete();
+            if (builder.Error)
+                return null;
             res.Formula = builder.GetResult();
             return res;
         }
