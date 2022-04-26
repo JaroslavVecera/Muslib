@@ -1,23 +1,88 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Music
 {
-    public enum Note
+    public class Note : IEquatable<Note>
     {
-       C = 0,
-       D = 2,
-       E = 4,
-       F = 5,
-       G = 7,
-       A = 9,
-       B = 11,
-    }
+        public NoteName Name { get; private set; }
+        public Accidental Accidental { get; private set; }
 
-    public static class NoteExtensions
-    {
-        public static string GetLabel(this Note n)
+        public Note(NoteName name, Accidental accidental)
         {
-            return n.ToString();
+            Name = name;
+            Accidental = accidental;
+            Simplify();
+        }
+
+        public int ToSemitones()
+        {
+            return (int)Name + (int)Accidental;
+        }
+
+        void Simplify()
+        {
+            if (Accidental == Accidental.DoubleSharp)
+            {
+                Name = NoteNameExtensions.Succesor(Name);
+                Accidental = Accidental.Natural;
+            }
+            else if (Accidental == Accidental.DoubleFlat)
+            {
+                Name = NoteNameExtensions.Ancestor(Name);
+                Accidental = Accidental.Natural;
+            }
+            else if (Accidental == Accidental.Flat)
+            {
+                Accidental = (Name == NoteName.C || Name == NoteName.F) ? Accidental.Natural : Accidental.Sharp;
+                Name = NoteNameExtensions.Ancestor(Name);
+            }
+        }
+
+        public Note Successor()
+        {
+            return new Note(Name, Accidental - 1);
+        }
+
+        public Note Ancestor()
+        {
+            return new Note(Name, Accidental + 1);
+        }
+
+        public static Note operator +(Note n1, int i)
+        {
+            int sem = (n1.ToSemitones() + i) % 12;
+            if (sem < 0)
+                sem += 12;
+            if (Enum.GetValues<NoteName>().Cast<int>().ToList().Contains(sem))
+                return new Note((NoteName)sem, Accidental.Natural);
+            else
+                return new Note((NoteName)(sem - 1), Accidental.Sharp);
+        }
+
+        public static Note operator -(Note n1, int i)
+        {
+            return n1 + (-i);
+        }
+
+        public override bool Equals(object note)
+        {
+            if (note is not Note)
+                return false;
+            return Equals((Note)note);
+        }
+
+        public bool Equals(Note note)
+        {
+            return Name == note.Name && Accidental == note.Accidental;
+        }
+
+        public override string ToString()
+        {
+            return NoteNameExtensions.GetLabel(Name) + AccidentalExtensions.GetLabel(Accidental);
         }
     }
 }

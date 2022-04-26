@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace Music.Chords
 {
-    internal enum FormulaBuilderState
+    public enum Modifier
     {
-        Modifiers,
-        Extention,
-        Fifths,
-        Suss,
-        Alts,
-        Adds
+        Major,
+        Minor,
+        Augmented,
+        Diminished
     }
 }

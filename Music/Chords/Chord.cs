@@ -8,38 +8,56 @@ namespace Music.Chords
 {
     public class Chord
     {
-        public int Root { get; private set; }
+        public Note Root { get; private set; }
         public Formula Quality { get; private set; }
-        public int? Bass { get; private set; }
+        public Note Bass { get; private set; }
 
-        public int Lowest { get { return Bass.HasValue ? Bass.Value : Root; } }
-        static string[] Notes { get; } = new string[] { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
+        public Note Lowest { get { return Bass != null ? Bass : Root; } }
 
-        public int[] ConcreteFormula
-        {
-            get
-            {
-                List<int> res = new List<int>(Quality.Formula);
-                if (Bass.HasValue && !Quality.Contains((((Bass.Value - Root) % 12) + 12) % 12))
-                    res.Add((((Bass.Value - Root) % 12) + 12) % 12);
-                return res.Select(x => (x + Root) % 12).ToArray();
-            }
-        }
+        public List<Note> Notes { get; private set; }
 
-        public Chord(int root, Formula quality, int? bass)
+        public Chord(Note root, Formula quality, Note bass)
         {
             Root = root;
             Quality = quality;
             Bass = bass;
+            CountNotes();
         }
 
-        public string GetNotes()
+        public Chord(Note root, Formula quality)
         {
-            List<int> notes = ConcreteFormula.ToList();
-            notes.Sort();
+            Root = root;
+            Quality = quality;
+            Bass = null;
+            CountNotes();
+        }
+
+        void CountNotes()
+        {
+            Notes = Quality.Value.Select(i => Root + i).ToList();
+            if (Bass != null && !Notes.Contains(Bass))
+                Notes.Add(Bass);
+            Notes.Sort((i, j) => i.ToSemitones().CompareTo(j.ToSemitones()));
+        }
+
+        public static Chord ParseChord(string expression)
+        {
+            return ParseChord(expression, new ChordParser());
+        }
+
+        public static Chord ParseChord(string expression, IChordParser p)
+        {
+            bool success = p.Parse(expression);
+            if (!success)
+                return null;
+            return new Chord(p.GetRoot(), p.GetQuality(), p.GetBass());
+        }
+
+        public override string ToString()
+        {
             string res = "";
-            notes.ForEach(n => res += Notes[n] + " ");
-            return res;
+            Notes.ForEach(n => res += n.ToString() + " ");
+            return res.TrimEnd();
         }
     }
 }

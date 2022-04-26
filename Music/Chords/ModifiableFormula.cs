@@ -19,15 +19,16 @@ namespace Music.Chords
 
         public bool Add(int n)
         {
+            n %= 12;
             if (Contains(n))
                 return false;
             Value.Add(n);
             return true;
         }
 
-        public void Remove(int n)
+        public bool Remove(int n)
         {
-            Value.Remove(n);
+            return Value.Remove(n);
         }
 
         public void RemoveThird()
@@ -39,7 +40,7 @@ namespace Music.Chords
         {
             int i = 0;
             foreach (int m in mask)
-                Value[i++] += m;
+                Value[i++] += m % 12;
             RemoveDuplicities();
         }
     }

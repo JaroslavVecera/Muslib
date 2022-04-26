@@ -8,7 +8,7 @@ namespace Music
 {
     public struct Pitch : IComparable<Pitch>, IEquatable<Pitch>
     {
-        public Note NoteName { get; set; }
+        public NoteName NoteName { get; set; }
         public Accidental Accidental { get; set; }
         public int Octave { get; set; }
         public int Semitones { get { return 12 * Octave + (int)NoteName + (int)Accidental; } }
@@ -20,22 +20,22 @@ namespace Music
             if (semitones < 0)
                 indexOfLowerC -= 12;
             int differenceFromLowerC = semitones - indexOfLowerC;
-            bool isNatural = Enum.IsDefined(typeof(Note), differenceFromLowerC);
+            bool isNatural = Enum.IsDefined(typeof(NoteName), differenceFromLowerC);
             int indexOfNaturalTone = isNatural ? differenceFromLowerC : differenceFromLowerC - 1;
 
-            NoteName = (Note)indexOfNaturalTone;
+            NoteName = (NoteName)indexOfNaturalTone;
             Octave = indexOfLowerC / 12;
             Accidental = isNatural ? Accidental.Natural : Accidental.Sharp;
         }
 
-        public Pitch(Note noteName, Accidental accidental, int octave)
+        public Pitch(NoteName noteName, Accidental accidental, int octave)
         {
             NoteName = noteName;
             Octave = octave;
             Accidental = accidental;
         }
 
-        public Pitch(Note noteName, int octave) : this(noteName, Accidental.Natural, octave) { }
+        public Pitch(NoteName noteName, int octave) : this(noteName, Accidental.Natural, octave) { }
 
         public Pitch(Pitch pitch) : this(pitch.NoteName, pitch.Accidental, pitch.Octave) { }
 
@@ -104,7 +104,7 @@ namespace Music
 
         public override string ToString()
         {
-            return NoteExtensions.GetLabel(NoteName) + AccidentalExtensions.GetLabel(Accidental) + Octave;
+            return NoteNameExtensions.GetLabel(NoteName) + AccidentalExtensions.GetLabel(Accidental) + Octave;
         }
     }
 }
