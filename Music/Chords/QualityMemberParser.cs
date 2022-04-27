@@ -37,13 +37,16 @@ namespace Music.Chords
 
         int _index = 0;
         string _expression = "";
+        bool _canExtend = true;
+        int _lastExt = 0;
         bool IsEnd { get { return _index == _expression.Length; } }
 
         public List<QualityMember> Parse(string expression)
         {
             _expression = expression;
             _index = 0;
-            bool first_extention = true;
+            _canExtend = true;
+            _lastExt = 0;
             List<QualityMember> res = new List<QualityMember>();
             SkipWhitespaces();
             while (!IsEnd)
@@ -52,11 +55,8 @@ namespace Music.Chords
                 QualityMember member = null;
                 if (tok == null)
                     return null;
-                else if (tok.TokenType == TokenType.Num || (!first_extention && tok.TokenType == TokenType.Acc))
-                {
-                    member = CreateExtentionMember(tok);
-                    first_extention = false;
-                }
+                else if (tok.TokenType == TokenType.Num || tok.TokenType == TokenType.Acc)
+                    member = CreateExtentionOrAltMember(tok);
                 else if (tok.IsMod())
                     member = CreateModifierMember(tok);
                 else if (tok.TokenType == TokenType.Add || tok.TokenType == TokenType.Omit)
@@ -73,13 +73,14 @@ namespace Music.Chords
 
         QualityMember CreateSus(Token tok)
         {
+            _canExtend = false;
             SkipWhitespaces();
             if (IsEnd || (tok = GetNextToken()).TokenType != TokenType.Num || (tok.Value != 2 && tok.Value != 4))
                 return null;
             return new SuspendedMember((Sus)tok.Value);
         }
 
-        QualityMember CreateExtentionMember(Token tok)
+        QualityMember CreateExtentionOrAltMember(Token tok)
         {
             int acc = 0;
             if (tok.TokenType == TokenType.Acc)
@@ -89,9 +90,26 @@ namespace Music.Chords
                 if (IsEnd || (tok = GetNextToken()).TokenType != TokenType.Num)
                     return null;
             }
+            if (!_canExtend || tok.Value <= _lastExt  || (acc > 0 && tok.Value < 6))
+                return CreateAltMember(acc, tok);
+            else
+                return CreateExtentionMember(acc, tok);
+        }
+
+        QualityMember CreateExtentionMember(int acc, Token tok)
+        {
+            _lastExt = tok.Value;
             if (!Enum.GetValues<Extention>().Cast<int>().ToList().Contains(tok.Value))
                 return null;
             return new ExtentionMember((Extention)tok.Value, (Accidental)acc);
+        }
+
+        QualityMember CreateAltMember(int acc, Token tok)
+        {
+            _canExtend = false;
+            if (acc == 0 || tok.Value < 1 || tok.Value > 13)
+                return null;
+            return new AltMember(tok.Value, (NonzeroAccidental)acc);
         }
 
         QualityMember CreateModifierMember(Token tok)
@@ -111,6 +129,7 @@ namespace Music.Chords
 
         QualityMember CreateAddOrOmit(Token tok)
         {
+            _canExtend = false;
             bool add = tok.TokenType == TokenType.Add;
             int acc = 0;
             SkipWhitespaces();
@@ -118,6 +137,7 @@ namespace Music.Chords
                 return null;
             if (tok.TokenType == TokenType.Acc)
             {
+                acc = tok.Value;
                 SkipWhitespaces();
                 if (IsEnd || (tok = GetNextToken()).TokenType != TokenType.Num)
                     return null;

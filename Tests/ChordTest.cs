@@ -109,6 +109,7 @@ namespace Tests
         [Test]
         [TestCase("csus2sus2 ")]
         [TestCase("csus5 ")]
+        [TestCase(" c msus2 ")]
         public void SusChordsFail(string name)
         {
             Chord chord = Chord.ParseChord(name);
@@ -174,6 +175,7 @@ namespace Tests
         [TestCase(" c o9 ", "C D D# F# A")]
         [TestCase(" c mM79 ", "C D D# G B")]
         [TestCase(" c +9 ", "C D E G# A#")]
+        [TestCase(" c #9 ", "C D# E G A#")]
         public void NinethModChords(string name, string notes)
         {
             Chord chord = Chord.ParseChord(name);
@@ -188,8 +190,6 @@ namespace Tests
             Assert.AreEqual(notes, chord.ToString());
         }
 
-
-
         [Test]
         [TestCase(" cm5 ")]
         [TestCase(" c5sus2 ")]
@@ -198,6 +198,41 @@ namespace Tests
         {
             Chord chord = Chord.ParseChord(name);
             Assert.IsNull(chord);
+        }
+
+        [Test]
+        [TestCase(" c 6 ", "C E G A")]
+        [TestCase(" c m6 ", "C D# G A")]
+        [TestCase(" c M6 ", "C E G A")]
+        [TestCase(" c mM6 ", "C D# G A")]
+        public void SixthModChords(string name, string notes)
+        {
+            Chord chord = Chord.ParseChord(name);
+            Assert.AreEqual(notes, chord.ToString());
+        }
+
+        [Test]
+        [TestCase(" c79add11#9 ", "C D# E F G A#")]
+        [TestCase(" c #5 ", "C E G#")]
+        [TestCase(" c 7#1 ", "C# E G A#")]
+        public void AltChords(string name, string notes)
+        {
+            Chord chord = Chord.ParseChord(name);
+            Assert.AreEqual(notes, chord.ToString());
+        }
+
+        [Test]
+        [TestCase(" comit3omit5 ", "C")]
+        [TestCase(" comit3omit5omit1 ", "")]
+        [TestCase(" comit3omit5omit1add3 ", "E")]
+        [TestCase(" comit3omit5add#3omit1 ", "F")]
+        [TestCase(" c + omit #5 ", "C E")]
+        [TestCase(" c o omit b3 ", "C F#")]
+        [TestCase(" c sus 4 omit#3", "C G")]
+        public void OmitChords(string name, string notes)
+        {
+            Chord chord = Chord.ParseChord(name);
+            Assert.AreEqual(notes, chord.ToString());
         }
     }
 }

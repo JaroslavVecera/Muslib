@@ -8,7 +8,7 @@ namespace Music.Chords
 {
     public class AltMember : QualityMember
     {
-        public override QualityMemberType Type { get { return QualityMemberType.Alt; } }
+        public override QualityMemberType Type { get { return QualityMemberType.AltOrAdd; } }
 
         public NonzeroAccidental Accidental { get; private set; }
         public int Nth { get; private set; }

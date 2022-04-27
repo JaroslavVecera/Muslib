@@ -11,7 +11,6 @@ namespace Music.Chords
         Modifier,
         Extention,
         Sus,
-        Alt,
-        Add
+        AltOrAdd
     }
 }

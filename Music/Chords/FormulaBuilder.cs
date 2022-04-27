@@ -126,8 +126,6 @@ namespace Music.Chords
         {
             if (State > QualityMemberType.Extention)
                 BuildModifiers();
-            if (State > QualityMemberType.Alt)
-                BuildAlts();
         }
 
         void BuildModifiers()
@@ -169,17 +167,17 @@ namespace Music.Chords
                         flats += (int)val;
                 });
                 if (!Formula.Remove(Chords.Formula.ToSemitones(pair.Key))
-                 || !Formula.Add(Chords.Formula.ToSemitones(pair.Key) + flats)
-                 || !Formula.Add(Chords.Formula.ToSemitones(pair.Key) + sharps))
+                 || (flats != 0 && !Formula.Add(Chords.Formula.ToSemitones(pair.Key) + flats))
+                 || (sharps != 0 && !Formula.Add(Chords.Formula.ToSemitones(pair.Key) + sharps)))
                     Error = true;
             }
         }
 
         public void Alt(int nth, NonzeroAccidental accidental)
         {
-            if (nth < 2)
+            if (nth < 1 || (Extentions.Any() && nth > Extentions.Max(e => (int)e)))
                 Error = true;
-            if (Alts[nth] == null)
+            if (!Alts.ContainsKey(nth))
                 Alts[nth] = new List<NonzeroAccidental>();
             Alts[nth].Add(accidental);
         }
