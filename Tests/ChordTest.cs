@@ -144,9 +144,13 @@ namespace Tests
         }
 
         [Test]
-        [TestCase(" c mM7 ", "C D# G B")]
         [TestCase(" c oM7 ", "C D# F# B")]
         [TestCase(" c +M7 ", "C E G# B")]
+        [TestCase(" c M7 ", "C E G B")]
+        [TestCase(" c Min7 ", "C D# G A#")]
+        [TestCase(" c o7 ", "C D# F# A")]
+        [TestCase(" c mM7 ", "C D# G B")]
+        [TestCase(" c +7 ", "C E G# A#")]
         public void SeventhModChords(string name, string notes)
         {
             Chord chord = Chord.ParseChord(name);
@@ -157,6 +161,40 @@ namespace Tests
         [TestCase("com7 ")]
         [TestCase("c augdim7 ")]
         public void SeventhModChordsFail(string name)
+        {
+            Chord chord = Chord.ParseChord(name);
+            Assert.IsNull(chord);
+        }
+
+        [Test]
+        [TestCase(" c oM9 ", "C D D# F# B")]
+        [TestCase(" c +M79 ", "C D E G# B")]
+        [TestCase(" c M9 ", "C D E G B")]
+        [TestCase(" c Min79 ", "C D D# G A#")]
+        [TestCase(" c o9 ", "C D D# F# A")]
+        [TestCase(" c mM79 ", "C D D# G B")]
+        [TestCase(" c +9 ", "C D E G# A#")]
+        public void NinethModChords(string name, string notes)
+        {
+            Chord chord = Chord.ParseChord(name);
+            Assert.AreEqual(notes, chord.ToString());
+        }
+
+        [Test]
+        [TestCase(" c 5 ", "C G")]
+        public void FifthChords(string name, string notes)
+        {
+            Chord chord = Chord.ParseChord(name);
+            Assert.AreEqual(notes, chord.ToString());
+        }
+
+
+
+        [Test]
+        [TestCase(" cm5 ")]
+        [TestCase(" c5sus2 ")]
+        [TestCase(" cmaj5 ")]
+        public void FifthChordsFail(string name)
         {
             Chord chord = Chord.ParseChord(name);
             Assert.IsNull(chord);

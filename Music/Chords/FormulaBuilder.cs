@@ -14,7 +14,7 @@ namespace Music.Chords
         bool Fifth { get; set; } = false;
 
         QualityMemberType State { get; set; }
-        bool CanSus { get { return !Modifiers.Any(mod => mod != Modifier.Major); } }
+        bool CanSus { get { return !Fifth && !Modifiers.Any(mod => mod != Modifier.Major); } }
         List<Sus> Suss { get; set; } = new List<Sus>();
         bool BuildedAlts { get; set; }
         Dictionary<int, List<NonzeroAccidental>> Alts { get; set; } = new Dictionary<int, List<NonzeroAccidental>>();
@@ -95,9 +95,10 @@ namespace Music.Chords
 
         void MakeFifth(Accidental accidental)
         {
-            if (Fifth || Extentions.Count > 0 || accidental != Accidental.Natural)
+            if (Fifth || Modifiers.Count > 0 || Extentions.Count > 0 || accidental != Accidental.Natural)
                 Error = true;
             Fifth = true;
+            Formula.RemoveThird();
         }
 
         void ExtendPositive(Extention ext, Accidental accidental)
