@@ -23,5 +23,10 @@ namespace Music.Chords
         {
             builder.Alt(Nth, Accidental);
         }
+
+        public override string ToString()
+        {
+            return ((Accidental)Accidental).GetLabel() + Nth;
+        }
     }
 }

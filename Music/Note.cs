@@ -18,6 +18,12 @@ namespace Music
             Simplify();
         }
 
+        public Note(NoteName name)
+        {
+            Name = name;
+            Accidental = Accidental.Natural;
+        }
+
         public int ToSemitones()
         {
             return (int)Name + (int)Accidental;
@@ -27,18 +33,18 @@ namespace Music
         {
             if (Accidental == Accidental.DoubleSharp)
             {
-                Name = NoteNameExtensions.Succesor(Name);
+                Name = Name.Succesor();
                 Accidental = Accidental.Natural;
             }
             else if (Accidental == Accidental.DoubleFlat)
             {
-                Name = NoteNameExtensions.Ancestor(Name);
+                Name = Name.Ancestor();
                 Accidental = Accidental.Natural;
             }
             else if (Accidental == Accidental.Flat)
             {
                 Accidental = (Name == NoteName.C || Name == NoteName.F) ? Accidental.Natural : Accidental.Sharp;
-                Name = NoteNameExtensions.Ancestor(Name);
+                Name = Name.Ancestor();
             }
         }
 
@@ -82,7 +88,7 @@ namespace Music
 
         public override string ToString()
         {
-            return NoteNameExtensions.GetLabel(Name) + AccidentalExtensions.GetLabel(Accidental);
+            return Name.GetLabel() + Accidental.GetLabel();
         }
     }
 }

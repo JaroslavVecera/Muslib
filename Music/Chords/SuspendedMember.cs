@@ -20,5 +20,10 @@ namespace Music.Chords
         {
             builder.BuildSus(Sus);
         }
+
+        public override string ToString()
+        {
+            return "sus" + Sus;
+        }
     }
 }

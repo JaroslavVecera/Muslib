@@ -10,7 +10,7 @@ namespace Music.Chords
     {
         public Note GetRoot();
         public Note GetBass();
-        public Formula GetQuality();
+        public Quality GetQuality();
         public bool Parse(string expression);
     }
 }

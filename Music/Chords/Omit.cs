@@ -14,5 +14,10 @@ namespace Music.Chords
         {
             builder.Omit(Nth, Accidental);
         }
+
+        public override string ToString()
+        {
+            return "omit" + Accidental.GetLabel() + Nth;
+        }
     }
 }

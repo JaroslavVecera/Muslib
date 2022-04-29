@@ -23,5 +23,10 @@ namespace Music.Chords
         {
             builder.Extend(Extention, Accidental);
         }
+
+        public override string ToString()
+        {
+            return Accidental.GetLabel() + (int)Extention;
+        }
     }
 }

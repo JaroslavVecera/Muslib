@@ -20,5 +20,10 @@ namespace Music.Chords
         {
             builder.AddModifier(Modifier);
         }
+
+        public override string ToString()
+        {
+            return Modifier.GetLabel();
+        }
     }
 }

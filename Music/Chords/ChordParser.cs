@@ -9,7 +9,7 @@ namespace Music.Chords
     public class ChordParser : IChordParser
     {
         public Note Root { get; private set; }
-        public Formula Quality { get; private set; }
+        public Quality Quality { get; private set; }
         public Note Bass { get; private set; }
 
 
@@ -23,7 +23,7 @@ namespace Music.Chords
             return Bass;
         }
 
-        public Formula GetQuality()
+        public Quality GetQuality()
         {
             return Quality;
         }
@@ -58,7 +58,7 @@ namespace Music.Chords
             Quality q = Music.Chords.Quality.CreateQuality(split[0]);
             if (q == null)
                 return false;
-            Quality = q.Formula;
+            Quality = q;
             if (split.Count == 2)
             {
                 string bassExpr = split[1].Trim();

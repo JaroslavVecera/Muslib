@@ -9,14 +9,14 @@ namespace Music.Chords
     public class Chord
     {
         public Note Root { get; private set; }
-        public Formula Quality { get; private set; }
+        public Quality Quality { get; private set; }
         public Note Bass { get; private set; }
 
         public Note Lowest { get { return Bass != null ? Bass : Root; } }
 
         public List<Note> Notes { get; private set; }
 
-        public Chord(Note root, Formula quality, Note bass)
+        public Chord(Note root, Quality quality, Note bass)
         {
             Root = root;
             Quality = quality;
@@ -24,7 +24,7 @@ namespace Music.Chords
             CountNotes();
         }
 
-        public Chord(Note root, Formula quality)
+        public Chord(Note root, Quality quality)
         {
             Root = root;
             Quality = quality;
@@ -34,7 +34,7 @@ namespace Music.Chords
 
         void CountNotes()
         {
-            Notes = Quality.Value.Select(i => Root + i).ToList();
+            Notes = Quality.Formula.Value.Select(i => Root + i).ToList();
             if (Bass != null && !Notes.Contains(Bass))
                 Notes.Add(Bass);
             Notes.Sort((i, j) => i.ToSemitones().CompareTo(j.ToSemitones()));
@@ -53,11 +53,16 @@ namespace Music.Chords
             return new Chord(p.GetRoot(), p.GetQuality(), p.GetBass());
         }
 
-        public override string ToString()
+        public string GetStringNotes()
         {
             string res = "";
             Notes.ForEach(n => res += n.ToString() + " ");
             return res.TrimEnd();
+        }
+
+        public override string ToString()
+        {
+            return Root.ToString() + Quality.ToString() + ((Bass != null) ? ("/" + Bass.ToString()) : "");
         }
     }
 }

@@ -23,7 +23,7 @@ namespace Tests
         public void SimpleChords(string name, string notes)
         {
             Chord chord = Chord.ParseChord(name);
-            Assert.AreEqual(notes, chord.ToString());
+            Assert.AreEqual(notes, chord.GetStringNotes());
         }
 
         [Test]
@@ -48,7 +48,7 @@ namespace Tests
         public void BassChords(string name, string notes)
         {
             Chord chord = Chord.ParseChord(name);
-            Assert.AreEqual(notes, chord.ToString());
+            Assert.AreEqual(notes, chord.GetStringNotes());
         }
 
         [Test]
@@ -80,7 +80,7 @@ namespace Tests
         public void ExtendedChords(string name, string notes)
         {
             Chord chord = Chord.ParseChord(name);
-            Assert.AreEqual(notes, chord.ToString());
+            Assert.AreEqual(notes, chord.GetStringNotes());
         }
 
         [Test]
@@ -103,7 +103,7 @@ namespace Tests
         public void SusChords(string name, string notes)
         {
             Chord chord = Chord.ParseChord(name);
-            Assert.AreEqual(notes, chord.ToString());
+            Assert.AreEqual(notes, chord.GetStringNotes());
         }
 
         [Test]
@@ -132,7 +132,7 @@ namespace Tests
         public void ModChords(string name, string notes)
         {
             Chord chord = Chord.ParseChord(name);
-            Assert.AreEqual(notes, chord.ToString());
+            Assert.AreEqual(notes, chord.GetStringNotes());
         }
 
         [Test]
@@ -155,7 +155,7 @@ namespace Tests
         public void SeventhModChords(string name, string notes)
         {
             Chord chord = Chord.ParseChord(name);
-            Assert.AreEqual(notes, chord.ToString());
+            Assert.AreEqual(notes, chord.GetStringNotes());
         }
 
         [Test]
@@ -179,7 +179,7 @@ namespace Tests
         public void NinethModChords(string name, string notes)
         {
             Chord chord = Chord.ParseChord(name);
-            Assert.AreEqual(notes, chord.ToString());
+            Assert.AreEqual(notes, chord.GetStringNotes());
         }
 
         [Test]
@@ -187,7 +187,7 @@ namespace Tests
         public void FifthChords(string name, string notes)
         {
             Chord chord = Chord.ParseChord(name);
-            Assert.AreEqual(notes, chord.ToString());
+            Assert.AreEqual(notes, chord.GetStringNotes());
         }
 
         [Test]
@@ -208,7 +208,7 @@ namespace Tests
         public void SixthModChords(string name, string notes)
         {
             Chord chord = Chord.ParseChord(name);
-            Assert.AreEqual(notes, chord.ToString());
+            Assert.AreEqual(notes, chord.GetStringNotes());
         }
 
         [Test]
@@ -218,7 +218,7 @@ namespace Tests
         public void AltChords(string name, string notes)
         {
             Chord chord = Chord.ParseChord(name);
-            Assert.AreEqual(notes, chord.ToString());
+            Assert.AreEqual(notes, chord.GetStringNotes());
         }
 
         [Test]
@@ -232,7 +232,15 @@ namespace Tests
         public void OmitChords(string name, string notes)
         {
             Chord chord = Chord.ParseChord(name);
-            Assert.AreEqual(notes, chord.ToString());
+            Assert.AreEqual(notes, chord.GetStringNotes());
+        }
+
+        [Test]
+        [TestCase(" c79add11#9 ")]
+        public void TestToString(string name)
+        {
+            string s = Chord.ParseChord(name).ToString();
+            Assert.AreEqual("C79add11#9", s);
         }
     }
 }

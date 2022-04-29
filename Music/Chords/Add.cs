@@ -14,5 +14,10 @@ namespace Music.Chords
         {
             builder.Add(Nth, Accidental);
         }
+
+        public override string ToString()
+        {
+            return "add" + Accidental.GetLabel() + Nth;
+        }
     }
 }

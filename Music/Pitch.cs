@@ -10,6 +10,7 @@ namespace Music
     {
         public NoteName NoteName { get; set; }
         public Accidental Accidental { get; set; }
+        public Note Note { get { return new Note(NoteName, Accidental); } }
         public int Octave { get; set; }
         public int Semitones { get { return 12 * Octave + (int)NoteName + (int)Accidental; } }
         public bool IsEnharmonicallySimplified { get { return Accidental == Accidental.Natural || Accidental == Accidental.Sharp; } }
@@ -104,7 +105,7 @@ namespace Music
 
         public override string ToString()
         {
-            return NoteNameExtensions.GetLabel(NoteName) + AccidentalExtensions.GetLabel(Accidental) + Octave;
+            return NoteName.GetLabel() + Accidental.GetLabel() + Octave;
         }
     }
 }

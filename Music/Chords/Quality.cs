@@ -46,6 +46,17 @@ namespace Music.Chords
             if (builder.Error)
                 return null;
             res.Formula = builder.GetResult();
+            res.Members = members;
+            return res;
+        }
+
+        public override string ToString()
+        {
+            string res = "";
+            Members.ForEach(member =>
+            {
+                res += member.ToString();
+            });
             return res;
         }
     }
