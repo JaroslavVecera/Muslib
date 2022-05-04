@@ -213,6 +213,7 @@ namespace Tests
 
         [Test]
         [TestCase(" c79add11#9 ", "C D# E F G A#")]
+        [TestCase(" cmM79add11b9 ", "C C# D# F G B")]
         [TestCase(" c #5 ", "C E G#")]
         [TestCase(" c 7#1 ", "C# E G A#")]
         public void AltChords(string name, string notes)

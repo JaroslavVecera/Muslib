@@ -145,8 +145,8 @@ namespace Music.Chords
 
             if (mask == null)
                 Error = true;
-            else
-                Formula.AddMask(mask);
+            else if (!Formula.AddMask(mask))
+                Error = true;
         }
 
         void BuildAlts()

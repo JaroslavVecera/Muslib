@@ -36,12 +36,14 @@ namespace Music.Chords
             Value.RemoveAt(1);
         }
 
-        public void AddMask(List<int> mask)
+        public bool AddMask(List<int> mask)
         {
             int i = 0;
             foreach (int m in mask)
                 Value[i++] += m % 12;
+            int size = Value.Count;
             RemoveDuplicities();
+            return size == Value.Count;
         }
     }
 }
