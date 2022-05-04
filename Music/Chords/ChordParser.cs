@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Music.Chords
+namespace Muslib.Chords
 {
     public class ChordParser : IChordParser
     {
@@ -55,7 +55,7 @@ namespace Music.Chords
             List<string> split = expression.Split('/').ToList();
             if (split.Count > 2)
                 return false;
-            Quality q = Music.Chords.Quality.CreateQuality(split[0]);
+            Quality q = Muslib.Chords.Quality.CreateQuality(split[0]);
             if (q == null)
                 return false;
             Quality = q;

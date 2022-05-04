@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 
-namespace Music.Fret
+namespace Muslib.Fret
 {
     public class Fingering
     {

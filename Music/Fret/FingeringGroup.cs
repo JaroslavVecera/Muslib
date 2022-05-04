@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 
-namespace Music.Fret
+namespace Muslib.Fret
 {
     public class FingeringGroup : INotifyPropertyChanged
     {

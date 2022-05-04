@@ -1,6 +1,6 @@
 using NUnit.Framework;
-using Music;
-using Music.Chords;
+using Muslib;
+using Muslib.Chords;
 using System.Collections.Generic;
 
 namespace Tests

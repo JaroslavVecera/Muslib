@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Music;
+using Muslib;
 
 namespace Tests
 {

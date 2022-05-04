@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Music
+namespace Muslib
 {
     public enum NoteName
     {

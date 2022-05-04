@@ -1,4 +1,4 @@
-﻿namespace Music.Fret
+﻿namespace Muslib.Fret
 {
     public class Barre
     {
